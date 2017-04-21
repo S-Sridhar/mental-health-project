@@ -21,22 +21,27 @@ library(rattle)
 ```
 
 ```{r}
+library(readr)
+pivot <- read_csv("~/Smith/Spring2017/SDS235/mental-health-project/pivot.csv")
 pivot[sapply(pivot,is.integer)] <- lapply(pivot[sapply(pivot,is.integer)],as.factor)
 pivot[sapply(pivot,is.character)] <- lapply(pivot[sapply(pivot,is.character)],as.factor)
-str(pivot)
+#str(pivot)
 ```
 
 
 ```{r}
-names()
+names(pivot)
+pivotMod <- select(pivot, -1, -2, -4)
+glimpse(pivotMod)
 ```
 
 Classification Tree
 ```{r, message=FALSE, warning=FALSE}
-classTree <- rpart(is_package~duration + daysAhead + orginDestDist + party_total ,data=bookingTree, method="class", control = rpart.control(cp = 0.001))
-rpart.plot(classTree, cex = 0.5)
 
-classTreeNew <- rpart(is_package~duration + daysAhead + orginDestDist + party_total ,data=bookingTreeNew, method="class", control = rpart.control(cp = 0.001))
-rpart.plot(classTreeNew, cex = 0.5)
+classTree <- rpart(Chapter~.,data=pivotMod, method="class")
+
+rpart.plot(classTree, cex = 0.5)
+fancyRpartPlot(classTree)
+
 ```
 
