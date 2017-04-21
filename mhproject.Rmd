@@ -1,0 +1,42 @@
+---
+title: "Untitled"
+author: "Subashini Sridhar"
+date: "April 21, 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(tree)
+library(leaps)
+library(gbm)
+library(rpart)
+library(rpart.plot)
+library(rattle)
+```
+
+```{r}
+pivot[sapply(pivot,is.integer)] <- lapply(pivot[sapply(pivot,is.integer)],as.factor)
+pivot[sapply(pivot,is.character)] <- lapply(pivot[sapply(pivot,is.character)],as.factor)
+str(pivot)
+```
+
+
+```{r}
+names()
+```
+
+Classification Tree
+```{r, message=FALSE, warning=FALSE}
+classTree <- rpart(is_package~duration + daysAhead + orginDestDist + party_total ,data=bookingTree, method="class", control = rpart.control(cp = 0.001))
+rpart.plot(classTree, cex = 0.5)
+
+classTreeNew <- rpart(is_package~duration + daysAhead + orginDestDist + party_total ,data=bookingTreeNew, method="class", control = rpart.control(cp = 0.001))
+rpart.plot(classTreeNew, cex = 0.5)
+```
+
